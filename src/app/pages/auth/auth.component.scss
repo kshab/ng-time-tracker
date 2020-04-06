@@ -1,0 +1,11 @@
+.auth-page-wrapper {
+  .form {
+      margin: 50px auto;
+      width: 50%;
+      
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
