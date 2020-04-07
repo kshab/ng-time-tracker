@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserActivityService } from 'src/app/services/user-activity.service';
 
 @Component({
-  selector: 'app-page-one',
-  templateUrl: './page-one.component.html',
-  styleUrls: ['./page-one.component.scss']
+    selector: 'app-page-one',
+    templateUrl: './page-one.component.html',
+    styleUrls: ['./page-one.component.scss']
 })
-export class PageOneComponent {
-  title = 'ng-time-tracker';
+export class PageOneComponent implements OnInit {
+    constructor(
+        private userActivityService: UserActivityService
+    ) {}
+
+    ngOnInit(): void {
+        this.userActivityService.updateTimer('page-one');
+    }
 }

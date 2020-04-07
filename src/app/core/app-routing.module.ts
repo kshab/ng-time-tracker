@@ -6,6 +6,7 @@ import { PageTwoComponent } from '../pages/page-two/page-two.component';
 import { PageThreeComponent } from '../pages/page-three/page-three.component';
 import { ReportComponent } from '../pages/report/report.component';
 import { AuthComponent } from '../pages/auth/auth.component';
+import { AuthGuard } from '../services/auth.guard';
 
 const routes: Routes = [
     {
@@ -15,13 +16,13 @@ const routes: Routes = [
         path: 'auth', component: AuthComponent
     },
     {
-        path: 'page-one', component: PageOneComponent
+        path: 'page-one', component: PageOneComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'page-two', component: PageTwoComponent
+        path: 'page-two', component: PageTwoComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'page-three', component: PageThreeComponent
+        path: 'page-three', component: PageThreeComponent, canActivate: [AuthGuard]
     },
     {
         path: 'report', component: ReportComponent
