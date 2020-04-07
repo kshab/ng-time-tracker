@@ -6,9 +6,8 @@ import { Router } from '@angular/router';
 })
 export class UserActivityService {
     private inactivityTimer: any;
-    private sessionStartTimeInMilliseconds = 0;
-    private sessionEndTimeInMilliseconds = 0;
-    private sessionDuarationInMilliseconds = 0;
+    private activityTimer: any;
+    private sessionDuarationInSeconds = 1;
     public isTimerFrozen = false;
 
     private currentPage: string | null;
@@ -17,37 +16,48 @@ export class UserActivityService {
     constructor() { }
 
     public startSessionTimer(): void {
-        this.sessionStartTimeInMilliseconds = new Date().getTime();
+        this.activityTimer = setInterval(() => {
+            console.log(this.sessionDuarationInSeconds);
+            this.sessionDuarationInSeconds ++;
+        }, 1000);
     }
 
     public stopSessionTimer(): void {
-        this.sessionEndTimeInMilliseconds = new Date().getTime();
-        this.sessionDuarationInMilliseconds = this.sessionEndTimeInMilliseconds - this.sessionStartTimeInMilliseconds;
+        clearInterval(this.activityTimer);
+    }
+
+    public resetSessionTimer() {
+        this.stopSessionTimer();
+        this.startSessionTimer();
     }
 
     public startInactivityTimer(): void {
+        this.isTimerFrozen = false;
+        this.stopInactivityTimer();
         this.inactivityTimer = setTimeout(() => {
             this.isTimerFrozen = true;
-            this.updateTimer(null);
-        }, 3000);
+            this.stopSessionTimer();
+        }, 10000); // set smaller delay in order to test faster
     }
 
-    public stopInactivityTimer(): void {
+    private stopInactivityTimer(): void {
         clearTimeout(this.inactivityTimer);
     }
 
     public updateTimer(page: string | null): void {
-        if (this.currentPage || !page) {
-            this.previousPage = this.currentPage;
-            this.currentPage = page;
+        this.stopSessionTimer();
 
-            this.stopSessionTimer();
-            this.savePageSessionInfoInLocalstorage(this.previousPage);
-        } else {
+        if (page) {
             this.currentPage = page;
-            this.startSessionTimer();
         }
 
+        if (this.previousPage) {
+            this.savePageSessionInfoInLocalstorage(this.previousPage);
+        }
+
+        this.previousPage = this.currentPage;
+
+        this.sessionDuarationInSeconds = 1;
         if (!this.isTimerFrozen) {
             this.startSessionTimer();
         }
@@ -58,7 +68,7 @@ export class UserActivityService {
 
         localStorage.setItem(pageSessionId.toString(), JSON.stringify({
             pageName: page,
-            sessionDuration: this.sessionDuarationInMilliseconds
+            sessionDuration: this.sessionDuarationInSeconds
         }));
     }
 }

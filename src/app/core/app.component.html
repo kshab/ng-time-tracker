@@ -1,29 +1,27 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>Time Tracker</span>
+   <mat-toolbar-row>
+      <span>Time Tracker</span>
 
-        <a mat-button
-           routerLink="/page-one"
-           routerLinkActive="active">Page One</a>
+      <a mat-button
+         routerLink="/page-one"
+         routerLinkActive="active">Page One</a>
 
-        <a mat-button
-           routerLink="/page-two"
-           routerLinkActive="active">Page Two</a>
+      <a mat-button
+         routerLink="/page-two"
+         routerLinkActive="active">Page Two</a>
 
-        <a mat-button
-           routerLink="/page-three"
-           routerLinkActive="active">Page Three</a>
+      <a mat-button
+         routerLink="/page-three"
+         routerLinkActive="active">Page Three</a>
 
-        <a *ngIf="isLoginShown()"
-           mat-button
-           routerLink="/auth"
-           routerLinkActive="active">Login</a>
+      <a *ngIf="isLoginShown()"
+         mat-button
+         routerLink="/auth"
+         routerLinkActive="active">Login</a>
 
-        <a *ngIf="isLogoutShown()"
-           mat-button
-           routerLink="/page-three"
-           routerLinkActive="active"
-           (click)="onLogout()">Logout</a>
-    </mat-toolbar-row>
+      <a *ngIf="isLogoutShown()"
+         mat-button
+         (click)="onLogout()">Logout</a>
+   </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

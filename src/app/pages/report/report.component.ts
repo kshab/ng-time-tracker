@@ -44,7 +44,6 @@ export class ReportComponent implements OnInit, OnDestroy {
             });
 
         this.fillSessionsStatistics();
-        localStorage.clear();
     }
 
     public ngOnDestroy(): void {
@@ -56,8 +55,6 @@ export class ReportComponent implements OnInit, OnDestroy {
         const sessionsDataFromLocalStorage = Object.entries(localStorage);
         this.mapSessions(sessionsDataFromLocalStorage);
         this.fillTable();
-
-        console.log(this.statisticsTableData);
     }
 
     private mapSessions(sessionData): void {
@@ -65,8 +62,8 @@ export class ReportComponent implements OnInit, OnDestroy {
             const session = JSON.parse(element[1]);
 
             if (session.pageName) {
-                this.sessionsDurationInMinutes[session.pageName] += (session.sessionDuration / 1000);
-                this.sessionsDurationInMinutes['total'] += (session.sessionDuration / 1000);
+                this.sessionsDurationInMinutes[session.pageName] += (session.sessionDuration);
+                this.sessionsDurationInMinutes['total'] += (session.sessionDuration);
             }
         });
     }

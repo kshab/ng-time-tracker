@@ -20,15 +20,15 @@ export class AppComponent implements OnInit, OnDestroy {
     private routerSubscription: Subscription;
 
     @HostListener("window:click") onClick() {
-        if (this.isUserAuthenticated) {
-            this.userActivityService.updateTimer(this.page);
+        if (this.isUserAuthenticated && (this.page !== 'report')) {
+            this.userActivityService.resetSessionTimer();
             this.userActivityService.startInactivityTimer();
         }
     }
 
-    @HostListener("window:keyup") onKeyup() {
-        if (this.isUserAuthenticated) {
-            this.userActivityService.updateTimer(this.page);
+    @HostListener("window:keyup" ) onKeyup() {
+        if (this.isUserAuthenticated && (this.page !== 'report')) {
+            this.userActivityService.resetSessionTimer();
             this.userActivityService.startInactivityTimer();
         }
     }
@@ -58,11 +58,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (currentPage === 'auth') {
                     this.isAuthPage = true;
                     this.authService.addRegisteredUserToLocalStorage();
+                } else if (currentPage === 'report') {
+                    this.isAuthPage = false;
+                    this.userActivityService.stopSessionTimer();
                 } else {
                     this.isAuthPage = false;
-                    if (currentPage !== 'report') {
-                        this.userActivityService.startInactivityTimer();
-                    }
+                    this.userActivityService.startInactivityTimer();
                 }
             });
     }

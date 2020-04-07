@@ -20,6 +20,7 @@ export class AuthService {
     ) {}
 
     public addRegisteredUserToLocalStorage(): void {
+        localStorage.clear();
         localStorage.setItem(
             'registeredUser',
             JSON.stringify(this._registeredUser)
@@ -45,7 +46,6 @@ export class AuthService {
 
     public logout(): void {
         this.userActivityService.updateTimer(null);
-        this.userActivityService.stopInactivityTimer();
         localStorage.removeItem('userData');
         this.router.navigate(['/report']);
     }
