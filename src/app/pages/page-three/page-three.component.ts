@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserActivityService } from 'src/app/services/user-activity.service';
+import { UserActivityService } from '../../services/user-activity.service';
 
 @Component({
     selector: 'app-page-three',
