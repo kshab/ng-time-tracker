@@ -4,6 +4,16 @@ Time tracker application that monitors each page session duration
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
 
+## Demo
+
+https://stackblitz.com/github/kshab/ng-time-tracker
+
+### User info to login demo
+
+username: test
+
+password: qwerty
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
