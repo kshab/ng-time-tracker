@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { UserModel } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
@@ -8,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit, OnDestroy {
+export class ReportComponent implements OnInit {
     public sessionsDurationInMinutes = {
         'page-one': 0,
         'page-two': 0,
@@ -20,7 +19,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     public displayedColumns: string[] = ['page', 'duration'];
 
     private _user: UserModel;
-    private userSubscription: Subscription;
 
     private pageNames = {
         'page-one': 'Page 1',
@@ -38,17 +36,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.userSubscription = this.userService.currentUser
-            .subscribe(user => {
-                this._user = user;
-            });
-
         this.fillSessionsStatistics();
-    }
-
-    public ngOnDestroy(): void {
-        this.userSubscription.unsubscribe();
-        this.userService.setCurrentUser(null);
     }
 
     private fillSessionsStatistics(): void {
@@ -59,11 +47,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     private mapSessions(sessionData): void {
         sessionData.forEach(element => {
-            const session = JSON.parse(element[1]);
+            const item = JSON.parse(element[1]);
 
-            if (session.pageName) {
-                this.sessionsDurationInMinutes[session.pageName] += (session.sessionDuration);
-                this.sessionsDurationInMinutes['total'] += (session.sessionDuration);
+            if (item.pageName) {
+                this.sessionsDurationInMinutes[item.pageName] += (item.sessionDuration);
+                this.sessionsDurationInMinutes['total'] += (item.sessionDuration);
+            } else if (item.username) {
+                this._user = item;
             }
         });
     }

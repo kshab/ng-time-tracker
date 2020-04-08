@@ -46,6 +46,7 @@ export class AuthService {
 
     public logout(): void {
         this.userActivityService.updateTimer(null);
+        this.userService.setCurrentUser(null);
         localStorage.removeItem('userData');
         this.router.navigate(['/report']);
     }

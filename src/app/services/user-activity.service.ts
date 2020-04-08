@@ -17,7 +17,6 @@ export class UserActivityService {
 
     public startSessionTimer(): void {
         this.activityTimer = setInterval(() => {
-            console.log(this.sessionDuarationInSeconds);
             this.sessionDuarationInSeconds ++;
         }, 1000);
     }
@@ -37,7 +36,7 @@ export class UserActivityService {
         this.inactivityTimer = setTimeout(() => {
             this.isTimerFrozen = true;
             this.stopSessionTimer();
-        }, 10000); // set smaller delay in order to test faster
+        }, 10000); // I set smaller delay in order to test faster
     }
 
     private stopInactivityTimer(): void {
